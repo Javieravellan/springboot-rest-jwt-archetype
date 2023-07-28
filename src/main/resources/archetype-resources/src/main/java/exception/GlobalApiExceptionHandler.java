@@ -4,7 +4,6 @@
 package ${package}.exception;
 
 import ${package}.api.response.ApiError;
-import ${package}.exception.integration.AldeamoResponseException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,16 +21,14 @@ import org.springframework.web.util.WebUtils;
 @Log4j2
 public class GlobalApiExceptionHandler {
 
-    @ExceptionHandler({GenericException.class, AldeamoResponseException.class, AccessDeniedException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler({GenericException.class, AccessDeniedException.class, MethodArgumentNotValidException.class})
     public final ResponseEntity<ApiError> handleException(Exception ex, WebRequest webRequest) {
         HttpHeaders headers = new HttpHeaders();
         if(ex instanceof UsernameAlreadyExistsException uaeEx) {
             return handleUsernameAlreadyExistsException(uaeEx, headers, uaeEx.getStatus(), webRequest);
         } else if(ex instanceof InternalAuthenticationServiceException nfEx) {
             return handleUserNotFoundException(nfEx, headers, HttpStatus.NOT_FOUND, webRequest);
-        } else if(ex instanceof AldeamoResponseException aldeamoEx)
-            return handleAldeamoResponseException(aldeamoEx, headers, aldeamoEx.getErrorResponse().getStatusCode(), webRequest);
-        else if (ex instanceof AccessDeniedException aex) {
+        } else if (ex instanceof AccessDeniedException aex) {
             var apiError = new ApiError(HttpStatus.FORBIDDEN, aex.getMessage(), 403);
             return handleExceptionInternal(aex, apiError, headers, apiError.getStatusText(), webRequest);
         } else if (ex instanceof BadRequestException bre) {
@@ -55,13 +52,6 @@ public class GlobalApiExceptionHandler {
 
     public ResponseEntity<ApiError> handleUsernameAlreadyExistsException(UsernameAlreadyExistsException ex, HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
         return handleExceptionInternal(ex, new ApiError(ex.getStatus(), ex.getMessage(), status.value()), headers, status, webRequest);
-    }
-
-    public ResponseEntity<ApiError> handleAldeamoResponseException(AldeamoResponseException ex, HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
-        var errorResponse = ex.getErrorResponse();
-        var apiError = new ApiError(errorResponse.getStatusCode(), errorResponse.getErrors(), status.value());
-
-        return handleExceptionInternal(ex, apiError, headers, apiError.getStatusText(), webRequest);
     }
 
     public ResponseEntity<ApiError> handleUserNotFoundException(InternalAuthenticationServiceException ex, HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
