@@ -20,11 +20,18 @@ public class ${mainClass} {
 	Environment env;
 
 	public static void main(String[] args) {
-		SpringApplication.run(${mainClass}.class, args);
+		var app = new SpringApplication(${mainClass}.class);
+		${mainClass}.addDefaultProfile(app);
+		Environment env = app.run(args).getEnvironment();
 	}
 
-	@PostConstruct
-	void showProfilesActive() {
-		log.warn("Run app on profile: {}", (Object) env.getActiveProfiles());
+	private static void addDefaultProfile(SpringApplication app) {
+		Map<String, Object> defProperties = new HashMap<>();
+		defProperties.put(SPRING_PROFILE_DEFAULT, "default,dev");
+		app.setDefaultProperties(defProperties);
+	}
+
+	private static void logProfilesActives(Environment env) {
+		log.info("Aplicación en ejecución con los perfiles: {}", (Object) env.getActiveProfiles());
 	}
 }
