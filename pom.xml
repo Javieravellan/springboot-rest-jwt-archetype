@@ -36,7 +36,7 @@
     <repository>
       <id>spring-archetype</id>
       <name>Javier Chiquito AVellán</name>
-      <url>https://github.com/javierchiquito/spring-archetype</url>
+      <url>https://github.com/javierchiquito/archetypes</url>
     </repository>
   </distributionManagement>
   <developers>
@@ -56,6 +56,6 @@
   </licenses>
 
   <scm>
-    <url>https://github.com/spring-projects/spring-boot/EnvioPorWhatsappUs</url>
+    <url>https://github.com/javierchiquito/spring-archetype</url>
   </scm>
 </project>
