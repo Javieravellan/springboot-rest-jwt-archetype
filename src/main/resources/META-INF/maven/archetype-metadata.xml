@@ -33,6 +33,7 @@
     <fileSet encoding="UTF-8">
       <directory></directory>
       <includes>
+        <include>.mvn/**</include>
         <include>README.md</include>
         <include>HELP.md</include>
         <include>mvnw.cmd</include>
