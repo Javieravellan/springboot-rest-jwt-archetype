@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on-profile: preprod
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/test
+  security:
+    secret-key: "cl4v3-pr1v4d4"
+    token-validity-in-seconds: 86400 # token dura 1 hora
+    token-validity-in-seconds-for-remember-me: 2592000
+
+application:

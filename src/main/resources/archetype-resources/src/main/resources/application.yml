@@ -1,0 +1,35 @@
+logging:
+  level:
+    ROOT: WARN
+    ${groupId}: DEBUG
+
+management:
+  health:
+    mongo:
+      enabled: false
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+mongock:
+  change-logs-scan-package: ${groupId}.migrations
+spring:
+  profiles:
+    active:
+    group:
+      - dev
+      - preprod
+      - prod
+      - test
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 25MB
+      location: /tmp
+
+# server config
+server:
+  port: 8081
