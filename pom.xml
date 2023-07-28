@@ -32,7 +32,13 @@
   </build>
 
   <description>Modelo de proyecto para iniciar aplicaciones Springboot REST con autenticación JWT</description>
-
+  <distributionManagement>
+    <repository>
+      <id>spring-archetype</id>
+      <name>Javier Chiquito AVellán</name>
+      <url>https://github.com/javierchiquito/spring-archetype</url>
+    </repository>
+  </distributionManagement>
   <developers>
     <developer>
       <name>Eclipsoft N.N.E</name>
