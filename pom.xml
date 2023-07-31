@@ -23,7 +23,7 @@
           <outputDirectory>${project.build.directory}/deploy</outputDirectory> <!-- matches distribution management repository url above -->
           <branch>refs/heads/archetypes</branch>                       <!-- remote branch name -->
           <includes><include>**/*</include></includes>
-          <repositoryName>spring-archetypes</repositoryName>      <!-- github repo name -->
+          <repositoryName>spring-archetype</repositoryName>      <!-- github repo name -->
           <repositoryOwner>javierchiquito</repositoryOwner>    <!-- github username  -->
         </configuration>
         <executions>
@@ -82,6 +82,6 @@
   </licenses>
 
   <scm>
-    <url>https://github.com/javierchiquito/spring-archetype</url>
+    <url>https://github.com/javierchiquito/spring-archetype.git</url>
   </scm>
 </project>
