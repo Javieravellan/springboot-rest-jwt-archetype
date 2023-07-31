@@ -24,15 +24,8 @@ public class DatabaseMigration {
         Role roleUser = new Role();
         roleUser.setName(ERole.ROLE_USER);
 
-        Role roleAldeamo = new Role();
-        roleAldeamo.setName(ERole.ROLE_ALDEAMO);
-        Role roleSender = new Role();
-        roleSender.setName(ERole.ROLE_SENDER);
-
         mongockTemplate.save(roleAdmin);
         mongockTemplate.save(roleUser);
-        mongockTemplate.save(roleSender);
-        mongockTemplate.save(roleAldeamo);
     }
 
     @ChangeSet(order = "02", author = "anonymousUser", id = "addUsers")
