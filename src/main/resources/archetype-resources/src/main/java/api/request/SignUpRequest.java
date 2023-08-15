@@ -21,5 +21,4 @@ public class SignUpRequest {
     @NotNull
     private String password;
     private Set<ERole> authorities;
-    private String aldeamoUserId;
 }

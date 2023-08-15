@@ -30,9 +30,6 @@ public class User extends AuditingEntity {
     private String password;
     @DBRef
     private Set<Role> authorities = new HashSet<>();
-    @Field("aldeamo_user_id")
-    private String aldeamoUserId;
-
     public User(String username, String password) {
         this.username = username;
         this.password = password;

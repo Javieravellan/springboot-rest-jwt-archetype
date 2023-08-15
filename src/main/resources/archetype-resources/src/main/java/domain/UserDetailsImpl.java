@@ -20,16 +20,13 @@ public class UserDetailsImpl extends AuditingEntity implements UserDetails {
     private String id;
     private String username;
     @JsonIgnore
-    private String aldeamoUserId;
-    @JsonIgnore
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    private UserDetailsImpl(String id, String username, String password, String aldeamoUserId, Collection<? extends GrantedAuthority> authorities) {
+    private UserDetailsImpl(String id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.aldeamoUserId = aldeamoUserId;
         this.authorities = authorities;
     }
 
@@ -38,7 +35,7 @@ public class UserDetailsImpl extends AuditingEntity implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
 
-        return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(), user.getAldeamoUserId(), authorityList);
+        return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(), authorityList);
     }
 
     @Override

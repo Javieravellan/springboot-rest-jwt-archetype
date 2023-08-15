@@ -52,7 +52,6 @@ public class UserService {
         }
 
         user.setAuthorities(roles);
-        user.setAldeamoUserId(request.getAldeamoUserId());
         userRepository.save(user);
     }
 }
