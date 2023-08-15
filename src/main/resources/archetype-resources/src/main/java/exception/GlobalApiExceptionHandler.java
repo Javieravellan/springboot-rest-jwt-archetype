@@ -21,31 +21,53 @@ import org.springframework.web.util.WebUtils;
 @Log4j2
 public class GlobalApiExceptionHandler {
 
-    @ExceptionHandler({GenericException.class, AccessDeniedException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler({
+            Exception.class,
+            GenericException.class,
+            AccessDeniedException.class,
+            MethodArgumentNotValidException.class,
+    })
     public final ResponseEntity<ApiError> handleException(Exception ex, WebRequest webRequest) {
         HttpHeaders headers = new HttpHeaders();
+        log.debug("Error", ex);
         if(ex instanceof UsernameAlreadyExistsException uaeEx) {
             return handleUsernameAlreadyExistsException(uaeEx, headers, uaeEx.getStatus(), webRequest);
-        } else if(ex instanceof InternalAuthenticationServiceException nfEx) {
+        }
+        else if(ex instanceof InternalAuthenticationServiceException nfEx) {
             return handleUserNotFoundException(nfEx, headers, HttpStatus.NOT_FOUND, webRequest);
-        } else if (ex instanceof AccessDeniedException aex) {
+        }
+        else if (ex instanceof AccessDeniedException aex) {
             var apiError = new ApiError(HttpStatus.FORBIDDEN, aex.getMessage(), 403);
             return handleExceptionInternal(aex, apiError, headers, apiError.getStatusText(), webRequest);
-        } else if (ex instanceof BadRequestException bre) {
+        }
+        else if (ex instanceof BadRequestException bre) {
             var apiError = new ApiError(bre.getStatus(), bre.getMessage(), 400);
             return handleExceptionInternal(bre, apiError, headers, apiError.getStatusText(), webRequest);
-        } else if(ex instanceof MethodArgumentNotValidException me) {
-            var errors = new ApiError();
-            errors.setStatusText(HttpStatus.BAD_REQUEST);
-            errors.setStatusCode(400);
-            errors.setMessage("Error de validación de campos");
+        }
+        else if(ex instanceof MethodArgumentNotValidException me) {
+            var errors = ApiError.builder()
+                    .statusCode(HttpStatus.BAD_REQUEST.value())
+                    .message("Error de validación de campos")
+                    .statusText(HttpStatus.BAD_REQUEST)
+                    .build();
             setFieldErrorsIntoApiErrorObject(errors, me);
             return handleExceptionInternal(me, errors, headers, HttpStatus.BAD_REQUEST, webRequest);
         }
+        else if (ex instanceof GenericException ge) {
+            var apiError = ApiError.builder()
+                    .statusCode(ge.getStatus().value())
+                    .message(ge.getMessage())
+                    .statusText(ge.getStatus())
+                    .build();
+
+            return handleExceptionInternal(ge, apiError, headers, ge.getStatus(), webRequest);
+        }
         else {
-            var error = new ApiError();
-            error.setStatusText(HttpStatus.INTERNAL_SERVER_ERROR);
-            error.setStatusCode(500);
+            var error = ApiError.builder()
+                    .statusCode(500)
+                    .statusText(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .message(ex.getMessage())
+                    .build();
             return handleExceptionInternal(ex, error, headers, error.getStatusText(), webRequest);
         }
     }

@@ -3,9 +3,8 @@
 #set( $symbol_escape = '\' )
 package ${package}.api.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
@@ -14,6 +13,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiError {
     private HttpStatus statusText;
     private String message;
