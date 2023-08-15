@@ -8,12 +8,14 @@ import ${package}.api.request.SignUpRequest;
 import ${package}.api.response.JwtResponse;
 import ${package}.api.response.MessageResponse;
 import ${package}.domain.UserDetailsImpl;
+import ${package}.exception.GenericException;
 import ${package}.exception.UsernameAlreadyExistsException;
 import ${package}.security.JwtTokenUtils;
 import ${package}.services.JwtTokenUserDetailsService;
 import ${package}.services.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -82,9 +84,9 @@ public class JwtAuthenticationController {
                     request.getPassword()
             ));
         } catch (DisabledException e) {
-            throw new RuntimeException("USER_DISABLED", e);
+            throw new GenericException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         } catch (BadCredentialsException e) {
-            throw new RuntimeException("INVALID_CREDENTIALS", e);
+            throw new GenericException(HttpStatus.FORBIDDEN, "Usuario o contraseña incorrectos");
         }
     }
 }
