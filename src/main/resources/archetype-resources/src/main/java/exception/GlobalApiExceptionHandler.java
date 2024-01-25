@@ -33,7 +33,7 @@ public class GlobalApiExceptionHandler {
     })
     public final ResponseEntity<ApiError> handleException(Exception ex, WebRequest webRequest) {
         HttpHeaders headers = new HttpHeaders();
-        log.debug("Error", ex);
+        log.error("Error", ex);
         if(ex instanceof UsernameAlreadyExistsException uaeEx) {
             return handleUsernameAlreadyExistsException(uaeEx, headers, uaeEx.getStatus(), webRequest);
         }
