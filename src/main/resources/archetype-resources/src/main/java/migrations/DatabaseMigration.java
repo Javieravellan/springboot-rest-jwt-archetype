@@ -36,8 +36,12 @@ public class DatabaseMigration {
         userAdmin.setUsername("admin");
         userAdmin.setPassword("${symbol_dollar}2a${symbol_dollar}12${symbol_dollar}OcaWuQyP.K0JWwiYJtDGEu6ULQt38awMs8YoSc1MdEKV0IOFSqSVu");
         userAdmin.getAuthorities().add(roleAdmin);
+        userAdmin.setEmail("admin@localhost");
+        userAdmin.setEnabled(true);
         userAdmin.setCreatedByUser("anonymousUser");
+        userAdmin.setModifiedByUser("anonymousUser");
         userAdmin.setCreatedDate(LocalDateTime.now());
+        userAdmin.setLastModifiedDate(LocalDateTime.now());
         mongockTemplate.save(userAdmin);
     }
 }
