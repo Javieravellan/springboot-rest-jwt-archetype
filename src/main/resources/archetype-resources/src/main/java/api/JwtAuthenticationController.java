@@ -4,12 +4,9 @@
 package ${package}.api;
 
 import ${package}.api.request.JwtRequest;
-import ${package}.api.request.SignUpRequest;
 import ${package}.api.response.JwtResponse;
-import ${package}.api.response.MessageResponse;
 import ${package}.domain.UserDetailsImpl;
 import ${package}.exception.GenericException;
-import ${package}.exception.UsernameAlreadyExistsException;
 import ${package}.security.JwtTokenUtils;
 import ${package}.services.JwtTokenUserDetailsService;
 import ${package}.services.UserService;
@@ -18,7 +15,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -64,17 +60,6 @@ public class JwtAuthenticationController {
             authorities,
             userDetails.getUsername()
         ));
-    }
-
-    @PostMapping("/signup")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if (Boolean.TRUE.equals(userService.existsByUsername(signUpRequest.getUsername()))) {
-            throw new UsernameAlreadyExistsException("El nombre de usuario '"+signUpRequest.getUsername()+"' ya está ocupado");
-        }
-
-        userService.registerUser(signUpRequest);
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
     private Authentication authenticate(JwtRequest request) {
