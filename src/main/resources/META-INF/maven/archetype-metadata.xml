@@ -42,5 +42,11 @@
         <include>.gitignore</include>
       </includes>
     </fileSet>
+    <fileSet encoding="UTF-8">
+      <directory>.github</directory>
+      <includes>
+        <include>workflows/**.yml</include>
+      </includes>
+    </fileSet>
   </fileSets>
 </archetype-descriptor>
