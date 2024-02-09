@@ -11,8 +11,9 @@ management:
     enabled: false
   endpoints:
     web:
+      base-path: "/api/management"
       exposure:
-        include: "*"
+        include: "health,metrics,prometheus"
 
 mongock:
   change-logs-scan-package: ${groupId}.migrations
