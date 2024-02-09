@@ -5,7 +5,5 @@ package ${package}.domain.enums;
 
 public enum ERole {
     ROLE_USER,
-    ROLE_SENDER,
     ROLE_ADMIN,
-    ROLE_ALDEAMO
 }
