@@ -3,6 +3,7 @@
 #set( $symbol_escape = '\' )
 package ${package}.config;
 
+import ${package}.domain.enums.ERole;
 import ${package}.filter.AuthTokenFilter;
 import ${package}.security.AuthEntryPointJwt;
 import ${package}.security.JwtTokenUtils;
@@ -56,8 +57,9 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(JwtTokenUtils jwtTokenUtils, AuthEntryPointJwt authEntryPointJwt, HttpSecurity http) throws Exception {
         http.cors(AbstractHttpConfigurer::disable)
             .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(req -> req.requestMatchers("/api/auth/**", "/actuator/**")
-                        .permitAll().anyRequest().authenticated())
+            .authorizeHttpRequests(req -> req.requestMatchers("/api/auth/**", "/api/management/health")
+                        .permitAll().requestMatchers("/api/management").hasAuthority(ERole.ROLE_ADMIN.name())
+                    .anyRequest().authenticated())
             .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(exHandle -> exHandle.authenticationEntryPoint(authEntryPointJwt));
         http.authenticationProvider(authenticationProvider());

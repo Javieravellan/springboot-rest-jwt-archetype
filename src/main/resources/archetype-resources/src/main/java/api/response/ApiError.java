@@ -19,6 +19,7 @@ public class ApiError {
     private HttpStatus statusText;
     private String message;
     private int statusCode;
+    @Builder.Default
     private List<String> fieldErrors = new ArrayList<>();
 
     public ApiError(HttpStatus statusText, String message, int statusCode) {
